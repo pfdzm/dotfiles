@@ -14,7 +14,8 @@ set guicursor=n-v-c:block-Cursor
 set guicursor+=i:ver100-iCursor
 set guicursor+=n-v-c:blinkon1
 set guicursor+=i:blinkwait10
-set relativenumber
+" set relativenumber
+set number
 set nohlsearch
 set hidden
 set noerrorbells
@@ -318,3 +319,4 @@ autocmd FileType text setlocal textwidth=78
 "   require'nvim_lsp'.tsserver.setup{ on_attach=require'completion'.on_attach}
 " EOF
 
+let $FZF_DEFAULT_OPTS='--reverse'
