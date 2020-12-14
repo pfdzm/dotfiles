@@ -305,6 +305,7 @@ nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 "   let g:coc_global_extensions += ['coc-eslint']
 " endif
 
+
 " Ctrl-P bind for fzf
 nnoremap <silent> <c-p> :FZF<cr>
 

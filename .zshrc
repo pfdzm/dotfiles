@@ -101,3 +101,5 @@ source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore node_modules --ignore .git -g ""'
