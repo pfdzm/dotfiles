@@ -57,11 +57,11 @@ Plug 'junegunn/fzf.vim'
 " let g:svelte_indent_script = 0
 " let g:svelte_indent_style = 0
 " let g:svelte_preprocessors = ['typescript']
-Plug 'leafOfTree/vim-svelte-plugin'
-Plug 'coc-extensions/coc-svelte', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'leafOfTree/vim-svelte-plugin'
+" Plug 'coc-extensions/coc-svelte', {'do': 'yarn install --frozen-lockfile'}
 
 " auto pairs
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim'
@@ -306,7 +306,7 @@ nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 " endif
 
 " Ctrl-P bind for fzf
-nnoremap <silent> <c-p> :GFiles<cr>
+nnoremap <silent> <c-p> :FZF<cr>
 
 " For all text files set 'textwidth' to 78 characters.
 autocmd FileType text setlocal textwidth=78
