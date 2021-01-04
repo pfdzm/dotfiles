@@ -106,10 +106,10 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
 
 export FZF_DEFAULT_COMMAND="rg --files --hidden -g '!.git/**'"
 
 # export FZF_DEFAULT_COMMAND='rg --hidden --ignore node_modules --ignore .git -g ""'
 
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
