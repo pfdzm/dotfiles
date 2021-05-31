@@ -111,5 +111,13 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden -g '!.git/**'"
 
 # export FZF_DEFAULT_COMMAND='rg --hidden --ignore node_modules --ignore .git -g ""'
 
+
+# Wasmer
+export WASMER_DIR="/Users/pablofm/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+
+
+# Flutter
+export PATH="$PATH:$HOME/flutter/bin"
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
