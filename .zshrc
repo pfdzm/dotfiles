@@ -119,5 +119,16 @@ export WASMER_DIR="/Users/pablofm/.wasmer"
 
 # Flutter
 export PATH="$PATH:$HOME/flutter/bin"
+[ -f "/Users/pablofm/.ghcup/env" ] && source "/Users/pablofm/.ghcup/env" # ghcup-env
+# brew ruby install
+# export PATH="/usr/local/opt/ruby/bin:$PATH"
+#
+
+# chruby
+source /usr/local/opt/chruby/share/chruby/chruby.sh
+source /usr/local/opt/chruby/share/chruby/auto.sh
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+

@@ -54,6 +54,14 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'hrsh7th/vim-vsnip'
 
+" Plug 'rktjmp/lush.nvim'
+" Plug 'npxbr/gruvbox.nvim'
+Plug 'rafamadriz/neon'
+
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+
+
 " svelte support
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}
 " 
@@ -110,6 +118,12 @@ Plug 'nvim-telescope/telescope.nvim'
 "
 Plug 'hrsh7th/nvim-compe'
 call plug#end()
+
+lua << EOF
+require('tree-sitter-typescript').typescript; // TypeScript grammar
+require('tree-sitter-typescript').tsx; // TSX grammar
+requite('tree-sitter-javascript').javascript
+EOF
 
 lua << EOF
 require'compe'.setup {
