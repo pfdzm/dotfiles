@@ -119,6 +119,7 @@ let g:prettier#autoformat_require_pragma = 0
 
 lua require'lspconfig'.tsserver.setup{}
 lua require'lspconfig'.eslint.setup{}
+lua require'lspconfig'.vuels.setup{}
 
 lua << EOF
 require'compe'.setup {
@@ -184,6 +185,7 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>gb <cmd>lua require('telescope.builtin').git_branches()<cr>
 
 
 " compe remaps
@@ -204,6 +206,45 @@ nnoremap <leader>vca :lua vim.lsp.buf.code_action()<CR>
 nnoremap <leader>vsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <leader>vn :lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <leader>vll :call LspLocationList()<CR>
+
+" navigation remaps
+nnoremap <C-k> :cprev<CR>zz
+nnoremap <C-j> :cnext<CR>zz
+nnoremap <leader>k :lprev<CR>zz
+nnoremap <leader>j :lnext<CR>zz
+nnoremap <C-q> :call ToggleQFList(1)<CR>
+nnoremap <leader>q :call ToggleQFList(0)<CR>
+let g:the_primeagen_qf_l = 0
+let g:the_primeagen_qf_g = 0
+
+" netrw
+let g:netrw_browse_split = 0
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+
+" git
+nmap <leader>gs :G<CR>
+
+fun! ToggleQFList(global)
+    if a:global
+        if g:the_primeagen_qf_g == 1
+            let g:the_primeagen_qf_g = 0
+            cclose
+        else
+            let g:the_primeagen_qf_g = 1
+            copen
+        end
+    else
+        if g:the_primeagen_qf_l == 1
+            let g:the_primeagen_qf_l = 0
+            lclose
+        else
+            let g:the_primeagen_qf_l = 1
+            lopen
+        end
+    endif
+endfun
+
 
 lua << EOF
 local t = function(str)
