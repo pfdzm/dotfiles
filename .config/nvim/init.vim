@@ -109,6 +109,9 @@ Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \}
 
+" Plug 'jiangmiao/auto-pairs'
+" Plug 'windwp/nvim-autopairs'
+" Plug 'windwp/nvim-ts-autotag'
 
 " Initialize plugin system
 call plug#end()
@@ -143,7 +146,13 @@ documentation = {
   max_height = math.floor(vim.o.lines * 0.3),
   min_height = 1,
   };
-
+map_cr = true, --  map <CR> on insert mode
+map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+auto_select = false,  -- auto select first item
+map_char = { -- modifies the function or method delimiter by filetypes
+  all = '(',
+  tex = '{'
+};
 source = {
   path = true;
   buffer = true;
@@ -171,7 +180,16 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 require'lspconfig'.rust_analyzer.setup {
   capabilities = capabilities,
   }
+
 EOF
+
+" some nice maps
+nnoremap <leader>pv :Ex<CR>
+nnoremap Y yg$
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
 
 " telescope remaps
 " Find files using Telescope command-line sugar.
@@ -194,6 +212,10 @@ inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 inoremap <silent><expr> <C-e>     compe#close('<C-e>')
 inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+fun! LspLocationList()
+    lua vim.lsp.diagnostic.set_loclist({open_loclist = false})
+endfun
 
 " lsp remaps
 nnoremap <leader>vd :lua vim.lsp.buf.definition()<CR>
@@ -288,7 +310,7 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 EOF
 
 
-lua require'nvim-treesitter.configs'.setup { highlight = { enable = true } }
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, autotag = { enable = true }  }
 
 if executable('rg')
   let g:rg_derive_root='true'
@@ -323,3 +345,33 @@ fun! ColorMyPencils()
     hi TelescopeBorder guifg=#5eacd
 endfun
 call ColorMyPencils()
+
+lua << EOF
+-- require('nvim-autopairs').setup{}
+
+-- local cond = require('nvim-autopairs.conds')
+-- 
+-- local npairs = require("nvim-autopairs")
+-- 
+-- npairs.setup({
+--     check_ts = true,
+--     ts_config = {
+--         lua = {'string'},-- it will not add a pair on that treesitter node
+--         javascript = {'template_string'},
+--         java = false,-- don't check treesitter on java
+--     }
+-- })
+-- 
+-- -- put this to setup function and press <a-e> to use fast_wrap
+-- npairs.setup({
+--     fast_wrap = {},
+-- })
+-- 
+-- 
+-- local ts_conds = require('nvim-autopairs.ts-conds')
+-- 
+-- npairs.enable()
+-- 
+-- require('nvim-ts-autotag').setup()
+-- 
+EOF
