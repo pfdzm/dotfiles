@@ -9,11 +9,6 @@ syntax on
 filetype plugin indent on
 
 set exrc
-" set guicursor=
-set guicursor=n-v-c:block-Cursor
-set guicursor+=i:ver100-iCursor
-set guicursor+=n-v-c:blinkon1
-set guicursor+=i:blinkwait10
 set relativenumber
 set number
 set nohlsearch
@@ -25,6 +20,7 @@ set expandtab
 set smartindent
 set nu
 set nowrap
+set ignorecase
 set smartcase
 set noswapfile
 set nobackup
@@ -56,10 +52,10 @@ set shortmess+=c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
+" Recently vim can merge signcolumn and number column into one
+set signcolumn=number
 else
-  set signcolumn=yes
+set signcolumn=yes
 endif
 
 " For all text files set 'textwidth' to 80 characters.
@@ -70,7 +66,7 @@ let mapleader="\<Space>"
 
 
 if executable('volta')
-  let g:node_host_prog = trim(system("volta which neovim-node-host"))
+let g:node_host_prog = trim(system("volta which neovim-node-host"))
 endif
 
 lua vim.o.completeopt = "menuone,noselect"
@@ -82,6 +78,7 @@ call plug#begin('~/.vim/plugged')
 
 " nvim-treesitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'nvim-treesitter/playground'
 
 Plug 'gruvbox-community/gruvbox'
 
@@ -103,11 +100,11 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'tpope/vim-fugitive'
 
 Plug 'github/copilot.vim'
-      
+
 " post install (yarn install | npm install) then load plugin only for editing supported files
 Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install',
-  \}
+\ 'do': 'yarn install',
+\}
 
 " Plug 'jiangmiao/auto-pairs'
 " Plug 'windwp/nvim-autopairs'
@@ -139,30 +136,30 @@ max_abbr_width = 100;
 max_kind_width = 100;
 max_menu_width = 100;
 documentation = {
-  border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-  winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-  max_width = 120,
-  min_width = 60,
-  max_height = math.floor(vim.o.lines * 0.3),
-  min_height = 1,
-  };
+border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+max_width = 120,
+min_width = 60,
+max_height = math.floor(vim.o.lines * 0.3),
+min_height = 1,
+};
 map_cr = true, --  map <CR> on insert mode
 map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
 auto_select = false,  -- auto select first item
 map_char = { -- modifies the function or method delimiter by filetypes
-  all = '(',
-  tex = '{'
+all = '(',
+tex = '{'
 };
 source = {
-  path = true;
-  buffer = true;
-  calc = true;
-  nvim_lsp = true;
-  nvim_lua = true;
-  vsnip = true;
-  ultisnips = true;
-  luasnip = true;
-  };
+path = true;
+buffer = true;
+calc = true;
+nvim_lsp = true;
+nvim_lua = true;
+vsnip = true;
+ultisnips = true;
+luasnip = true;
+};
 }
 EOF
 
@@ -170,18 +167,21 @@ lua << EOF
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-    }
-  }
+properties = {
+'documentation',
+'detail',
+'additionalTextEdits',
+}
+}
 
 require'lspconfig'.rust_analyzer.setup {
-  capabilities = capabilities,
-  }
+capabilities = capabilities,
+}
 
 EOF
+
+" prettier ?
+nnoremap <leader>p :PrettierAsync<CR>
 
 " some nice maps
 nnoremap <leader>pv :Ex<CR>
@@ -214,7 +214,7 @@ inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 fun! LspLocationList()
-    lua vim.lsp.diagnostic.set_loclist({open_loclist = false})
+lua vim.lsp.diagnostic.set_loclist({open_loclist = false})
 endfun
 
 " lsp remaps
@@ -248,23 +248,23 @@ let g:netrw_winsize = 25
 nmap <leader>gs :G<CR>
 
 fun! ToggleQFList(global)
-    if a:global
-        if g:the_primeagen_qf_g == 1
-            let g:the_primeagen_qf_g = 0
-            cclose
-        else
-            let g:the_primeagen_qf_g = 1
-            copen
-        end
-    else
-        if g:the_primeagen_qf_l == 1
-            let g:the_primeagen_qf_l = 0
-            lclose
-        else
-            let g:the_primeagen_qf_l = 1
-            lopen
-        end
-    endif
+if a:global
+if g:the_primeagen_qf_g == 1
+let g:the_primeagen_qf_g = 0
+cclose
+else
+let g:the_primeagen_qf_g = 1
+copen
+end
+else
+if g:the_primeagen_qf_l == 1
+let g:the_primeagen_qf_l = 0
+lclose
+else
+let g:the_primeagen_qf_l = 1
+lopen
+end
+endif
 endfun
 
 
@@ -283,23 +283,23 @@ end
 --- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
 if vim.fn.pumvisible() == 1 then
-  return t "<C-n>"
+return t "<C-n>"
 elseif vim.fn['vsnip#available'](1) == 1 then
-  return t "<Plug>(vsnip-expand-or-jump)"
+return t "<Plug>(vsnip-expand-or-jump)"
 elseif check_back_space() then
-  return t "<Tab>"
+return t "<Tab>"
 else
-  return vim.fn['compe#complete']()
+return vim.fn['compe#complete']()
 end
 end
 _G.s_tab_complete = function()
 if vim.fn.pumvisible() == 1 then
-  return t "<C-p>"
+return t "<C-p>"
 elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-  return t "<Plug>(vsnip-jump-prev)"
+return t "<Plug>(vsnip-jump-prev)"
 else
-  -- If <S-Tab> is not working in your terminal, change it to <C-h>
-  return t "<S-Tab>"
+-- If <S-Tab> is not working in your terminal, change it to <C-h>
+return t "<S-Tab>"
 end
 end
 
@@ -313,36 +313,58 @@ EOF
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, autotag = { enable = true }  }
 
 if executable('rg')
-  let g:rg_derive_root='true'
+let g:rg_derive_root='true'
 endif
 
-let g:theprimeagen_colorscheme = "gruvbox"
+set background=dark
 fun! ColorMyPencils()
-    let g:gruvbox_contrast_dark = 'hard'
-    if exists('+termguicolors')
-        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-    endif
-    let g:gruvbox_invert_selection='0'
+  let g:theprimeagen_colorscheme = "gruvbox"
+  let g:gruvbox_contrast_dark = 'hard'
+  if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  endif
+  let g:gruvbox_invert_selection='0'
 
-    set background=dark
-    if has('nvim')
-        call luaeval('vim.cmd("colorscheme " .. _A[1])', [g:theprimeagen_colorscheme])
-    else
-        " TODO: What the way to use g:theprimeagen_colorscheme
-        colorscheme gruvbox
-    endif
+   if has('nvim')
+   call luaeval('vim.cmd("colorscheme " .. _A[1])', [g:theprimeagen_colorscheme])
+   else
+   " TODO: What the way to use g:theprimeagen_colorscheme
+   colorscheme gruvbox
+   endif
 
-    highlight ColorColumn ctermbg=0 guibg=grey
-    hi SignColumn guibg=none
-    hi CursorLineNR guibg=None
-    highlight Normal guibg=none
-    " highlight LineNr guifg=#ff8659
-    " highlight LineNr guifg=#aed75f
-    highlight LineNr guifg=#5eacd3
-    highlight netrwDir guifg=#5eacd3
-    highlight qfFileName guifg=#aed75f
-    hi TelescopeBorder guifg=#5eacd
+  highlight ColorColumn ctermbg=0 guibg=grey
+  " highlight Normal guibg=green guifg=yellow ctermbg=green ctermfg=yellow
+  " highlight CursorLine guibg=red ctermbg=red
+
+  highlight LineNr guifg=#5eacd3
+  highlight netrwDir guifg=#5eacd3
+  highlight qfFileName guifg=#aed75f
+  hi TelescopeBorder guifg=#5eacd
+  " set guicursor=
+  " set guicursor=n-v-c:block-Cursor
+  " set guicursor+=i:ver100-iCursor
+  " set guicursor+=n-v-c:blinkon1
+  " set guicursor+=i:blinkwait10
+  " highlight Cursor gui=reverse guifg=NONE guibg=NONE
+
+  " highlight Cursor guifg=red guibg=black
+  " highlight iCursor guifg=red guibg=red
+  " set guicursor=n-v-c:block-Cursor
+  " set guicursor+=i:ver100-iCursor
+  " set guicursor+=n-v-c:blinkon0
+  " set guicursor+=i:blinkwait10
+
+  if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  endif
+  :autocmd InsertEnter * set cul
+  :autocmd InsertLeave * set nocul
+
 endfun
 call ColorMyPencils()
 
